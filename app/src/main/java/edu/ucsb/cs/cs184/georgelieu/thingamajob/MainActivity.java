@@ -4,6 +4,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+//    DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+//    mDatabaseReference.child();
+
+
+//    private DatabaseReference userCloudEndPoint;
+//    private DatabaseReference taskCloudEndPoint;
+//
+//    userCloudEndPoint = mDatabaseReference.child("Users");
+//    taskCloudEndPoint = mDatabaseReference.child("Tasks");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
