@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
+<<<<<<< HEAD
     DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 //    mDatabaseReference.child();
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //    userCloudEndPoint = mDatabaseReference.child("Users");
 //    taskCloudEndPoint = mDatabaseReference.child("Tasks");
+=======
+>>>>>>> parent of aff8e9d... database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
