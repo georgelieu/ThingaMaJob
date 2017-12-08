@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.MainActivity">
 
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,16 +31,5 @@
             android:layout_centerHorizontal="true"
             android:src="@android:drawable/btn_minus"
             android:background="#e43"/>
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp" />
     </RelativeLayout>
 </RelativeLayout>

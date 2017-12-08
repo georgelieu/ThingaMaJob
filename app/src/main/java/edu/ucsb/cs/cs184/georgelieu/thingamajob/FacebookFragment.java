@@ -341,27 +341,6 @@ public class FacebookFragment extends Fragment{
         performPublish(PendingAction.POST_PHOTO, canPresentShareDialogWithPhotos);
     }
 
-//    private void postPhoto() {
-//        Bitmap image = BitmapFactory.decodeResource(this.getResources(), R.drawable.androidlogo);
-//        SharePhoto sharePhoto = new SharePhoto.Builder().setBitmap(image).build();
-//        ArrayList<SharePhoto> photos = new ArrayList<>();
-//        photos.add(sharePhoto);
-//
-//        SharePhotoContent sharePhotoContent =
-//                new SharePhotoContent.Builder().setPhotos(photos).build();
-//        if (canPresentShareDialogWithPhotos) {
-//            shareDialog.show(sharePhotoContent);
-//        } else if (hasPublishPermission()) {
-//            ShareApi.share(sharePhotoContent, shareCallback);
-//        } else {
-//            pendingAction = PendingAction.POST_PHOTO;
-//            // We need to get new permissions, then complete the action when we get called back.
-//            LoginManager.getInstance().logInWithPublishPermissions(
-//                    this,
-//                    Arrays.asList(PERMISSION));
-//        }
-//    }
-
     private boolean hasPublishPermission() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && accessToken.getPermissions().contains("publish_actions");
@@ -398,16 +377,6 @@ public class FacebookFragment extends Fragment{
             return mIcon11;
         }
 
-//        protected void onPostExecute(Bitmap result) {
-//
-//            if (result != null) {
-//
-//
-//                Bitmap resized = Bitmap.createScaledBitmap(result,200,200, true);
-//                bmImage.setImageBitmap(ImageHelper.getRoundedCornerBitmap(getContext(),resized,250,200,200, false, false, false, false));
-//
-//            }
-//        }
     }
 
 

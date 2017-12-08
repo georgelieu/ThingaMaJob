@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "898353692244",
+    "firebase_url": "https://thingamajob.firebaseio.com",
+    "project_id": "thingamajob",
+    "storage_bucket": "thingamajob.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898353692244:android:910e1c3cdf6896a2",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs184.georgelieu.thingamajob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898353692244-ltgp54sbm1iqbnp1t1h6asoger4lmeiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbSbW7cx3dJXaNsRPPqVnsvbfD5EzsZ1g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
