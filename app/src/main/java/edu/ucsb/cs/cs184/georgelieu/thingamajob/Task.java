@@ -17,8 +17,11 @@ public class Task {
     public int year;
     public int month;
     public int day;
+    public String original_poster_email; /* Use this key to display User's full_name and phone number as well*/
+    public String task_doer_email = null;
+    public boolean isFinished = false;    /* indicates if task completed/uncompleted */
 
-    public Task(String task_id, String title, String description, double longitude, double latitude, double pay, int year, int month, int day, String original_poster_email, String task_doer_email, double op_to_doer_star_rating, double doer_to_op_star_rating, boolean isFinished) {
+    public Task(String task_id, String title, String description, double longitude, double latitude, double pay, int year, int month, int day, String original_poster_email, String task_doer_email, boolean isFinished) {
         this.task_id = task_id;
         this.title = title;
         this.description = description;
@@ -30,16 +33,8 @@ public class Task {
         this.day = day;
         this.original_poster_email = original_poster_email;
         this.task_doer_email = task_doer_email;
-        this.op_to_doer_star_rating = op_to_doer_star_rating;
-        this.doer_to_op_star_rating = doer_to_op_star_rating;
         this.isFinished = isFinished;
     }
-
-    public String original_poster_email; /* Use this key to display User's full_name and phone number as well*/
-    public String task_doer_email = null;
-    public double op_to_doer_star_rating = 0.0;
-    public double doer_to_op_star_rating = 0.0; /* everytime this gets filled, we should average this into the doer’s “star_rating” field */
-    public boolean isFinished = false;    /* indicates if task completed/uncompleted */
 
     public String getTask_id() {
         return task_id;
@@ -129,22 +124,6 @@ public class Task {
         this.task_doer_email = task_doer_email;
     }
 
-    public double getOp_to_doer_star_rating() {
-        return op_to_doer_star_rating;
-    }
-
-    public void setOp_to_doer_star_rating(double op_to_doer_star_rating) {
-        this.op_to_doer_star_rating = op_to_doer_star_rating;
-    }
-
-    public double getDoer_to_op_star_rating() {
-        return doer_to_op_star_rating;
-    }
-
-    public void setDoer_to_op_star_rating(double doer_to_op_star_rating) {
-        this.doer_to_op_star_rating = doer_to_op_star_rating;
-    }
-
     public boolean getIsFinished() {
         return isFinished;
     }
@@ -165,10 +144,7 @@ public class Task {
         result.put("year", getYear());
         result.put("month", getMonth());
         result.put("day", getDay());
-        result.put("original_poster_email", getOriginal_poster_email());
         result.put("task_doer_email", getTask_doer_email());
-        result.put("op_to_doer_star_rating", getOp_to_doer_star_rating());
-        result.put("doer_to_op_star_rating", getDoer_to_op_star_rating());
         result.put("isFinished", getIsFinished());
 
         return result;
