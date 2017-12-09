@@ -44,7 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 // allow user to make new task
                 EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment();
-                editTaskInfoFragment.show(getFragmentManager(), "Task info fragment");
+                editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
             }
         });
 
@@ -92,17 +92,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void displayTaskInfoFragment(Marker marker) {
         // get task info from marker
-        Task task = new Task();
+        Task task = markerToTask.get(marker);
 
-        TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
-        taskInfoFragment.show(getFragmentManager(), "Task info fragment");
+        if(task.getOriginal_poster_email() != DatabaseHelper.getCurrentUserEmail()) {
+            // if you're clicking on someone else's task
+            TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
+            taskInfoFragment.show(getFragmentManager(), "Task info fragment");
+        } else {
+            // if you're clicking on your own task
+            EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(task);
+            editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
+        }
     }
 
     // so that on marker click, we know which task to inflate
-    private static HashMap<Marker, Task> markerToTask;
+    private static HashMap<Marker, Task> markerToTask = new HashMap<>();
 
     // so that on task info edit, we know which marker->task link to update
-    private static HashMap<String, Marker> keyToMarker;
+    private static HashMap<String, Marker> keyToMarker = new HashMap<>();
 
     public void setTaskListener() {
 

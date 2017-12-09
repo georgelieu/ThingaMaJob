@@ -58,10 +58,43 @@ public class TaskInfoFragment extends DialogFragment {
         description.setText(task.getDescription());
 
         // maybe do more with this
-        date.setText(task.getMonth() + " " + task.getDay() + ", " + task.getYear());
+        date.setText(month(task.getMonth()) + " " + task.getDay() + ", " + task.getYear());
 
         // truncate to two values
-        cost.setText("$" + task.getPay());
+        cost.setText("$ " + String.format("%.2f", task.getPay()));
+
+    }
+
+    private String month(int x) {
+        switch (x) {
+            case 1:
+                return "Jan";
+            case 2:
+                return "Feb";
+            case 3:
+                return "Mar";
+            case 4:
+                return "Apr";
+            case 5:
+                return "May";
+            case 6:
+                return "Jun";
+            case 7:
+                return "Jul";
+            case 8:
+                return "Aug";
+            case 9:
+                return "Sep";
+            case 10:
+                return "Oct";
+            case 11:
+                return "Nov";
+            case 12:
+                return "Dec";
+            default:
+                return "Jan";
+        }
+
 
     }
 

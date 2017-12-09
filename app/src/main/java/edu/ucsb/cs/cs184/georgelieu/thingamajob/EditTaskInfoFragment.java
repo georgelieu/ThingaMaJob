@@ -22,9 +22,8 @@ public class EditTaskInfoFragment extends DialogFragment {
 
     private Task task;
 
-
-    private double lat = 0.0;
-    private double lon = 0.0;
+    private double lat = 34.412936;
+    private double lon = -119.847863;
     private String email = "simon@simon.com";
 
     public EditTaskInfoFragment() {
