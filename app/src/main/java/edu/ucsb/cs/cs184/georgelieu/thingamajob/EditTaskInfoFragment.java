@@ -4,6 +4,7 @@ package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,25 +81,27 @@ public class EditTaskInfoFragment extends DialogFragment {
         } else {
 
             // we are creating a new task
+            final TextView title = getView().findViewById(R.id.taskTitle);
+            final TextView user = getView().findViewById(R.id.user);
+            final TextView description = getView().findViewById(R.id.taskDescription);
+            final TextView month = getView().findViewById(R.id.taskMonth);
+            final TextView day = getView().findViewById(R.id.taskDay);
+            final TextView year = getView().findViewById(R.id.taskYear);
+            final TextView cost = getView().findViewById(R.id.taskCost);
 
-            final Date currentTime = Calendar.getInstance().getTime();
+            Date currentTime = Calendar.getInstance().getTime();
+
+            Log.i("Simon", currentTime.toString());
+
+            month.setText("" + (currentTime.getMonth()+1));
+            day.setText("" + currentTime.getDate());
+            year.setText("" + (currentTime.getYear()+1900));
 
             Button createTask = (Button) getView().findViewById(R.id.taskSave);
             createTask.setText("Create Task");
             createTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TextView title = getView().findViewById(R.id.taskTitle);
-                    TextView user = getView().findViewById(R.id.user);
-                    TextView description = getView().findViewById(R.id.taskDescription);
-                    TextView month = getView().findViewById(R.id.taskMonth);
-                    TextView day = getView().findViewById(R.id.taskDay);
-                    TextView year = getView().findViewById(R.id.taskYear);
-                    TextView cost = getView().findViewById(R.id.taskCost);
-
-                    month.setText("" + currentTime.getMonth());
-                    day.setText("" + currentTime.getDay());
-                    year.setText("" + currentTime.getYear());
 
                     DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
                             description.getText().toString(),
