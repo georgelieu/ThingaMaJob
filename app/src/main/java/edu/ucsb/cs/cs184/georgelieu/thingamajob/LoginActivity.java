@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
@@ -117,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
                 // query database for user info to set current_user object in DatabaseHelper
                 Query current_user = DatabaseHelper.mDatabaseReference.child("Users").orderByChild("email").equalTo(email);
 
@@ -152,7 +150,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }

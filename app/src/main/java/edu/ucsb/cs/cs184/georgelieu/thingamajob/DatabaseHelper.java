@@ -20,7 +20,6 @@ import java.util.Map;
 public class DatabaseHelper {
     // the values of current_user automatically gets set when they login
     public static User current_user = new User("", "", "");
-
     public static DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
     public static DatabaseReference mUserCloudEndPoint;
     public static DatabaseReference mTaskCloudEndPoint;
@@ -34,7 +33,6 @@ public class DatabaseHelper {
         mUserCloudEndPoint = mDatabaseReference.child("Users");
         mTaskCloudEndPoint = mDatabaseReference.child("Tasks");
     }
-
 
     public static void addNewUserToDatabase(String email, String full_name){
         String user_key = mUserCloudEndPoint.push().getKey();
