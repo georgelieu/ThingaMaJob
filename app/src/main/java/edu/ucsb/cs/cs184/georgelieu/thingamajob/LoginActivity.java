@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -112,6 +116,40 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
+                // query database for user info to set current_user object in DatabaseHelper
+                Query current_user = DatabaseHelper.mDatabaseReference.child("Users").orderByChild("email").equalTo(email);
+
+                current_user.addValueEventListener( new ValueEventListener(){
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            queryUserInfo(child.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+            }
+        });
+    }
+
+    public static void queryUserInfo(final String userId){
+        Query user_info = DatabaseHelper.mDatabaseReference.child("Users").child(userId);
+        user_info.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String email = dataSnapshot.child("email").getValue().toString();
+                String fullname = dataSnapshot.child("full_name").getValue().toString();
+
+                DatabaseHelper.current_user.setUser_id(userId);
+                DatabaseHelper.current_user.setEmail(email);
+                DatabaseHelper.current_user.setFull_name(fullname);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
     }
