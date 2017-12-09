@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +81,8 @@ public class EditTaskInfoFragment extends DialogFragment {
 
             // we are creating a new task
 
+            final Date currentTime = Calendar.getInstance().getTime();
+
             Button createTask = (Button) getView().findViewById(R.id.taskSave);
             createTask.setText("Create Task");
             createTask.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +95,10 @@ public class EditTaskInfoFragment extends DialogFragment {
                     TextView day = getView().findViewById(R.id.taskDay);
                     TextView year = getView().findViewById(R.id.taskYear);
                     TextView cost = getView().findViewById(R.id.taskCost);
+
+                    month.setText("" + currentTime.getMonth());
+                    day.setText("" + currentTime.getDay());
+                    year.setText("" + currentTime.getYear());
 
                     DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
                             description.getText().toString(),

@@ -59,7 +59,7 @@
         android:layout_below="@+id/dateHolder"
         android:ems="10"
         android:inputType="number"
-        android:hint="$0.99"/>
+        android:hint="Cost"/>
 
     <EditText
         android:id="@+id/taskDescription"
