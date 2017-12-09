@@ -18,6 +18,9 @@ import java.util.Map;
  */
 
 public class DatabaseHelper {
+    // the values of current_user automatically gets set when they login
+    public static User current_user = new User("", "", "");
+
     public static DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
     public static DatabaseReference mUserCloudEndPoint;
     public static DatabaseReference mTaskCloudEndPoint;
@@ -32,15 +35,26 @@ public class DatabaseHelper {
         mTaskCloudEndPoint = mDatabaseReference.child("Tasks");
     }
 
-    // TODO: Upon creation of a user account, make new user for them
 
     public static void addNewUserToDatabase(String email, String full_name){
-        User new_user = new User(email, full_name, 0.0 /*star_rating*/, 0 /*number_of_ratings*/);
         String user_key = mUserCloudEndPoint.push().getKey();
+        User new_user = new User(user_key, email, full_name);
         Map<String, Object> userValues = new_user.toMap();
         mUserCloudEndPoint.child(user_key).setValue(userValues);
 
         mListOfUsers.add(new_user);
+    }
+
+    public static String getCurrentUserId() {
+        return current_user.getUser_id();
+    }
+
+    public static String getCurrentUserEmail() {
+        return current_user.getEmail();
+    }
+
+    public static String getCurrentUserFullName() {
+        return current_user.getFull_name();
     }
 
     public static void addNewTaskToDatabase(String title, String description, double longitude, double latitude, double pay, int year, int month, int day, String original_poster_email) {

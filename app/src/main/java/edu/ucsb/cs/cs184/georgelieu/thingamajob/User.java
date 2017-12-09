@@ -8,12 +8,22 @@ import java.util.Map;
  */
 
 public class User {
-    public String email;        /* primary key */
+    public String user_id;
+    public String email;
     public String full_name;
 
-    public User(String email, String full_name, double star_rating, int number_of_ratings) {
+    public User(String user_id, String email, String full_name) {
+        this.user_id = user_id;
         this.email = email;
         this.full_name = full_name;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getEmail() {
@@ -36,6 +46,7 @@ public class User {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("user_id", getUser_id());
         result.put("email", getEmail());
         result.put("full_name", getFull_name());
         return result;
