@@ -6,20 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-    /* on first launch, show log in options, else, go directly to map */
-    // TODO: integrate our map activity with simon & thien's map activity
-    //private boolean firstLaunch = false;
-    private DatabaseReference mUserCloudEndPoint;
-    private DatabaseReference mTaskCloudEndPoint;
-
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -27,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeDatabase();
+        DatabaseHelper.initializeDatabase();
 
         //Firebase ref = new Firebase("https://thingamajob.firebaseio.com/");
 
@@ -62,16 +52,4 @@ public class MainActivity extends AppCompatActivity {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-    public void initializeDatabase() {
-        mUserCloudEndPoint = mDatabaseReference.child("Users");
-        mTaskCloudEndPoint = mDatabaseReference.child("Tasks");
-
-        mUserCloudEndPoint.setValue("Hello World").addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("abc", e.getLocalizedMessage());
-            }
-        });
-
-    }
 }
