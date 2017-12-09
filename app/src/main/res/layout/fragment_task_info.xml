@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:padding="10dp"
+tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.TaskInfoFragment">
+
+    <TextView
+        android:id="@+id/taskTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Task Summary"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/taskCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/taskTitle"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="10dp"
+        android:text="$$$"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/taskTitle"
+        android:text="User"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/userPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/acceptTask"
+        android:layout_alignBottom="@+id/acceptTask"
+        android:layout_alignParentStart="true"
+        android:text="(555)-555-5555"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/taskDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/user"
+        android:layout_toStartOf="@+id/taskDate"
+        android:paddingRight="10dp"
+        android:text="Task Description"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/taskDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/taskDescription"
+        android:layout_alignBottom="@+id/taskDescription"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="10dp"
+        android:text="July 5, 2017"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/acceptTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/taskDate"
+        android:text="Take Task" />
+
+</RelativeLayout>
