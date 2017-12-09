@@ -14,8 +14,9 @@ public class User {
 
     public User(String user_id, String email, String full_name) {
         this.user_id = user_id;
-    public String email;        /* primary key */
-    public String full_name;
+        this.email = email;        /* primary key */
+        this.full_name = full_name;
+    }
 
     public String getUser_id() {
         return user_id;
