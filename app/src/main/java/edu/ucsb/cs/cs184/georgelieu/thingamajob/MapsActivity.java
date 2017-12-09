@@ -1,8 +1,11 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,8 +16,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private String TAG = "MapsActivity/Simon";
 
     private GoogleMap mMap;
 
@@ -27,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // set FAB to open create task dialog
         FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +47,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 editTaskInfoFragment.show(getFragmentManager(), "Task info fragment");
             }
         });
+
+        // set up DB listener for tasks
+        setTaskListener();
     }
 
 
@@ -52,13 +66,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 displayTaskInfoFragment(marker);
                 return false;
             }
         });
+
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
     }
 
     void signOut() {
@@ -77,6 +96,78 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
         taskInfoFragment.show(getFragmentManager(), "Task info fragment");
+    }
+
+    // so that on marker click, we know which task to inflate
+    private static HashMap<Marker, Task> markerToTask;
+
+    // so that on task info edit, we know which marker->task link to update
+    private static HashMap<String, Marker> keyToMarker;
+
+    public void setTaskListener() {
+
+        DatabaseHelper.mTaskCloudEndPoint.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                // add marker to map
+
+                String key = dataSnapshot.getKey();
+                Task newTask = dataSnapshot.getValue(Task.class);
+
+                LatLng position = new LatLng(newTask.latitude, newTask.longitude);
+                Marker marker = mMap.addMarker(new MarkerOptions().position(position));
+
+                markerToTask.put(marker, newTask);
+                keyToMarker.put(key, marker);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                // update marker's task
+
+                String key = dataSnapshot.getKey();
+                Task newTask = dataSnapshot.getValue(Task.class);
+
+                Marker markerToUpdate = keyToMarker.get(key);
+
+                markerToTask.put(markerToUpdate, newTask);
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                // remove marker
+
+                String key = dataSnapshot.getKey();
+
+                Marker markerToRemove = keyToMarker.get(key);
+                markerToRemove.remove();
+
+                markerToTask.remove(markerToRemove);
+                keyToMarker.remove(key);
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                // should never happen
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                // hopefully should never happen
+                Log.d(TAG, databaseError.toString());
+
+            }
+        });
     }
 
 

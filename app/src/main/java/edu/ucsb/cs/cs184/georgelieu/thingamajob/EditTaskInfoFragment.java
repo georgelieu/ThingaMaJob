@@ -81,8 +81,19 @@ public class EditTaskInfoFragment extends DialogFragment {
         } else {
 
             // we are creating a new task
+
+            // remove delete button
+            Button deleteButton = getView().findViewById(R.id.taskDelete);
+            deleteButton.setVisibility(View.GONE);
+
+            /*
+            ViewGroup layout = (ViewGroup) deleteButton.getParent();
+            if(null!=layout) {
+                layout.removeView(deleteButton);
+            }
+            */
+
             final TextView title = getView().findViewById(R.id.taskTitle);
-            final TextView user = getView().findViewById(R.id.user);
             final TextView description = getView().findViewById(R.id.taskDescription);
             final TextView month = getView().findViewById(R.id.taskMonth);
             final TextView day = getView().findViewById(R.id.taskDay);
@@ -90,6 +101,14 @@ public class EditTaskInfoFragment extends DialogFragment {
             final TextView cost = getView().findViewById(R.id.taskCost);
 
             Date currentTime = Calendar.getInstance().getTime();
+
+            // TODO : get current location
+            /*
+            double lon;
+            double lat;
+             */
+
+            // TODO : standardize cost input
 
             Log.i("Simon", currentTime.toString());
 
