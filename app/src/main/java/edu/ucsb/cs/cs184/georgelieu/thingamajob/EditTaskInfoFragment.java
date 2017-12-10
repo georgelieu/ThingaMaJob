@@ -96,6 +96,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                             Integer.parseInt(month.getText().toString()),
                             Integer.parseInt(day.getText().toString()));
                     dismiss();
+                    Toast.makeText(getContext(), "Task saved.", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -107,6 +108,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                     Log.d(TAG, "delete task button");
                     DatabaseHelper.removeTask(id);
                     dismiss();
+                    Toast.makeText(getContext(), "Task deleted", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -154,6 +156,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                             Integer.parseInt(month.getText().toString()),
                             Integer.parseInt(day.getText().toString()),
                             email);
+                    Toast.makeText(getContext(), "Task created!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
             });
