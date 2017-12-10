@@ -6,7 +6,7 @@
     tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.TaskInfoFragment">
 
     <EditText
-        android:id="@+id/taskTitle"
+        android:id="@+id/editTaskTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -18,22 +18,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/taskTitle"
+        android:layout_below="@+id/editTaskTitle"
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/taskMonth"
+            android:id="@+id/editTaskMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/taskTitle"
+            android:layout_below="@+id/editTaskTitle"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Month"
             android:inputType="date" />
 
         <EditText
-            android:id="@+id/taskDay"
+            android:id="@+id/editTaskDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -42,7 +42,7 @@
             android:hint="Day"/>
 
         <EditText
-            android:id="@+id/taskYear"
+            android:id="@+id/editTaskYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,21 +52,21 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/taskCost"
+        android:id="@+id/editTaskCost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/dateHolder"
         android:ems="10"
         android:inputType="number"
-        android:hint="Cost"/>
+        android:hint="$0.99"/>
 
     <EditText
-        android:id="@+id/taskDescription"
+        android:id="@+id/editTaskDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/taskCost"
+        android:layout_below="@+id/editTaskCost"
         android:ems="10"
         android:hint="Task Description"
         android:inputType="textMultiLine" />
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/taskDescription"
+        android:layout_below="@+id/editTaskDescription"
         android:text="Save Task" />
 
     <Button

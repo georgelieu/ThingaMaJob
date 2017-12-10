@@ -108,5 +108,9 @@ public class DatabaseHelper {
         });
     }
 
+    public static void removeTask(String id) {
+        mTaskCloudEndPoint.child(id).removeValue();
+    }
+
 
 }

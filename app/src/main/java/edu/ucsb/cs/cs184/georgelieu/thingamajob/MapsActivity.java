@@ -94,7 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // get task info from marker
         Task task = markerToTask.get(marker);
 
-        if(task.getOriginal_poster_email() != DatabaseHelper.getCurrentUserEmail()) {
+//        if(task.getOriginal_poster_email() != DatabaseHelper.getCurrentUserEmail()) {
+        if(false) {
             // if you're clicking on someone else's task
             TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
             taskInfoFragment.show(getFragmentManager(), "Task info fragment");
