@@ -50,19 +50,24 @@ public class EditTaskInfoFragment extends DialogFragment {
 
         super.onActivityCreated(savedInstanceState);
 
+
+        final TextView title = getView().findViewById(R.id.editTaskTitle);
+        final TextView description = getView().findViewById(R.id.editTaskDescription);
+        final TextView month = getView().findViewById(R.id.editTaskMonth);
+        final TextView day = getView().findViewById(R.id.editTaskDay);
+        final TextView year = getView().findViewById(R.id.editTaskYear);
+        final TextView cost = getView().findViewById(R.id.editTaskCost);
+
+
+        // set date as current date
+        Date currentTime = Calendar.getInstance().getTime();
+        month.setText("" + (currentTime.getMonth()+1));
+        day.setText("" + currentTime.getDate());
+        year.setText("" + (currentTime.getYear()+1900));
+
         if(this.task != null) {
 
             // we are editing a task
-            TextView title = getView().findViewById(R.id.editTaskTitle);
-            TextView description = getView().findViewById(R.id.editTaskDescription);
-
-            LinearLayout dateHolder = getView().findViewById(R.id.dateHolder);
-            // nested in view
-//            TextView month = getView().findViewById(R.id.editTaskMonth);
-//            TextView day = getView().findViewById(R.id.editTaskDay);
-//            TextView year = getView().findViewById(R.id.editTaskYear);
-            TextView cost = getView().findViewById(R.id.editTaskCost);
-
             title.setText(task.getTitle());
             description.setText(task.getDescription());
 
@@ -72,10 +77,9 @@ public class EditTaskInfoFragment extends DialogFragment {
 //            year.setText(task.getYear());
 
             // truncate to two values
-            cost.setText("$ " + String.format("%.2f", task.getPay()));
+            cost.setText(String.format("%.2f", task.getPay()));
 
             final String id = task.getTask_id();
-
 
             Button saveTask = (Button) getView().findViewById(R.id.taskSave);
             saveTask.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +88,13 @@ public class EditTaskInfoFragment extends DialogFragment {
 
                     Log.d(TAG, "save task button");
 
+                    DatabaseHelper.updateTask(id,
+                            title.getText().toString(),
+                            description.getText().toString(),
+                            cost.getText().toString(),
+                            Integer.parseInt(year.getText().toString()),
+                            Integer.parseInt(month.getText().toString()),
+                            Integer.parseInt(day.getText().toString()));
 
                 }
             });
@@ -98,30 +109,10 @@ public class EditTaskInfoFragment extends DialogFragment {
 
                 }
             });
-//
+
         } else {
-//
-//            // we are creating a new task
-//
-//            // remove delete button
-            Button deleteButton = getView().findViewById(R.id.taskDelete);
-            deleteButton.setVisibility(View.GONE);
-//
-//            /*
-//            ViewGroup layout = (ViewGroup) deleteButton.getParent();
-//            if(null!=layout) {
-//                layout.removeView(deleteButton);
-//            }
-//            */
-//
-//            final TextView title = getView().findViewById(R.id.editTaskTitle);
-//            final TextView description = getView().findViewById(R.id.editTaskDescription);
-//            final TextView month = getView().findViewById(R.id.editTaskMonth);
-//            final TextView day = getView().findViewById(R.id.editTaskDay);
-//            final TextView year = getView().findViewById(R.id.editTaskYear);
-//            final TextView cost = getView().findViewById(R.id.editTaskCost);
-//
-//            Date currentTime = Calendar.getInstance().getTime();
+
+            // we are creating a new task
 //
 //            // TODO : get current location
 //            /*
@@ -131,12 +122,10 @@ public class EditTaskInfoFragment extends DialogFragment {
 //
 //            // TODO : standardize cost input
 //
-//            Log.i("Simon", currentTime.toString());
-//
-//            month.setText("" + (currentTime.getMonth()+1));
-//            day.setText("" + currentTime.getDate());
-//            year.setText("" + (currentTime.getYear()+1900));
-//
+
+
+
+            // change text of save task button to create task
             Button createTask = (Button) getView().findViewById(R.id.taskSave);
             createTask.setText("Create Task");
             createTask.setOnClickListener(new View.OnClickListener() {
@@ -145,17 +134,21 @@ public class EditTaskInfoFragment extends DialogFragment {
 
                     Log.d(TAG, "create task button");
 
-//                    DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
-//                            description.getText().toString(),
-//                            lon,
-//                            lat,
-//                            Double.valueOf(cost.getText().toString()),
-//                            Integer.parseInt(year.getText().toString()),
-//                            Integer.parseInt(month.getText().toString()),
-//                            Integer.parseInt(day.getText().toString()),
-//                            email);
+                    DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
+                            description.getText().toString(),
+                            lon,
+                            lat,
+                            Double.valueOf(cost.getText().toString()),
+                            Integer.parseInt(year.getText().toString()),
+                            Integer.parseInt(month.getText().toString()),
+                            Integer.parseInt(day.getText().toString()),
+                            email);
                 }
             });
+
+            // remove delete button
+            Button deleteButton = getView().findViewById(R.id.taskDelete);
+            deleteButton.setVisibility(View.GONE);
 
         }
 

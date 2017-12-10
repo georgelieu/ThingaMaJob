@@ -108,6 +108,18 @@ public class DatabaseHelper {
         });
     }
 
+    public static void updateTask(String id, String title, String description, String cost, int year, int month, int day) {
+
+        DatabaseReference task = mTaskCloudEndPoint.child(id);
+        task.child("title").setValue(title);
+        task.child("description").setValue(description);
+        task.child("pay").setValue(Double.valueOf(cost));
+        task.child("year").setValue(year);
+        task.child("month").setValue(month);
+        task.child("day").setValue(day);
+
+    }
+
     public static void removeTask(String id) {
         mTaskCloudEndPoint.child(id).removeValue();
     }
