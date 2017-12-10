@@ -12,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -59,5 +60,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     void signOut() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
+        DatabaseHelper.current_user.email = "";
+        DatabaseHelper.current_user.full_name = "";
+        DatabaseHelper.current_user.user_id = "";
+
+
     }
 }
