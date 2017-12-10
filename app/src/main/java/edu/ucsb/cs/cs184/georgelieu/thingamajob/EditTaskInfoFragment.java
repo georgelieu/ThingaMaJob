@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -87,7 +88,6 @@ public class EditTaskInfoFragment extends DialogFragment {
                 public void onClick(View view) {
 
                     Log.d(TAG, "save task button");
-
                     DatabaseHelper.updateTask(id,
                             title.getText().toString(),
                             description.getText().toString(),
@@ -95,7 +95,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                             Integer.parseInt(year.getText().toString()),
                             Integer.parseInt(month.getText().toString()),
                             Integer.parseInt(day.getText().toString()));
-
+                    dismiss();
                 }
             });
 
@@ -106,7 +106,7 @@ public class EditTaskInfoFragment extends DialogFragment {
 
                     Log.d(TAG, "delete task button");
                     DatabaseHelper.removeTask(id);
-
+                    dismiss();
                 }
             });
 
@@ -134,6 +134,17 @@ public class EditTaskInfoFragment extends DialogFragment {
 
                     Log.d(TAG, "create task button");
 
+                    // make sure all fields are filled
+                    if(title.getText().toString().isEmpty() ||
+                            description.getText().toString().isEmpty() ||
+                            cost.getText().toString().isEmpty() ||
+                            year.getText().toString().isEmpty() ||
+                            month.getText().toString().isEmpty() ||
+                            day.getText().toString().isEmpty()) {
+                        Toast.makeText(getContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
                             description.getText().toString(),
                             lon,
@@ -143,6 +154,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                             Integer.parseInt(month.getText().toString()),
                             Integer.parseInt(day.getText().toString()),
                             email);
+                    dismiss();
                 }
             });
 
