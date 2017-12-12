@@ -9,6 +9,10 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -33,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
                       startActivity(intent);
                      Log.d("LOG_Login", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
+                    System.out.println("Thinks he's logged out...");
                     // User is signed out
                     String className = this.getClass().getName();
                     if (!(className == "LoginActivity")) {
-                        //Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);
 
                         // intent.putExtra("EXTRA_SESSION_ID", sessionId);
