@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -63,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         DatabaseHelper.current_user.email = "";
         DatabaseHelper.current_user.full_name = "";
         DatabaseHelper.current_user.user_id = "";
+        LoginManager.getInstance().logOut();
 
 
     }

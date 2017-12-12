@@ -71,7 +71,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <!--<intent-filter>-->
+                <!--<data android:scheme="@string/fb_login_protocol_scheme" />-->
+            <!--</intent-filter>-->
+        </activity>
 
         <activity
             android:name=".SignupActivity"
