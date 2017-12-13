@@ -21,7 +21,7 @@ tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.TaskInfoFragment">
         android:layout_alignBottom="@+id/taskTitle"
         android:layout_alignParentEnd="true"
         android:paddingRight="10dp"
-        android:text="$$$"
+        android:text="Cost"
         android:textSize="18sp" />
 
     <TextView
