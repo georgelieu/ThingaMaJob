@@ -4,13 +4,11 @@ package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +31,11 @@ public class EditTaskInfoFragment extends DialogFragment {
 
     public EditTaskInfoFragment() {
         // Required empty public constructor
+    }
+
+    public EditTaskInfoFragment(double latitude, double longitude) {
+        lat = latitude;
+        lon = longitude;
     }
 
     public EditTaskInfoFragment(Task task) {
@@ -114,19 +117,6 @@ public class EditTaskInfoFragment extends DialogFragment {
 
         } else {
 
-            // we are creating a new task
-//
-//            // TODO : get current location
-//            /*
-//            double lon;
-//            double lat;
-//             */
-//
-//            // TODO : standardize cost input
-//
-
-
-
             // change text of save task button to create task
             Button createTask = (Button) getView().findViewById(R.id.taskSave);
             createTask.setText("Create Task");
@@ -155,7 +145,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                             Integer.parseInt(year.getText().toString()),
                             Integer.parseInt(month.getText().toString()),
                             Integer.parseInt(day.getText().toString()),
-                            email);
+                            DatabaseHelper.getCurrentUserEmail());
                     Toast.makeText(getContext(), "Task created!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }

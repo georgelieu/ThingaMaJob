@@ -1,20 +1,23 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +31,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+    private FusedLocationProviderClient mFusedLocationClient;
+    public static double longitude;
+    public static double latitiude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,20 +44,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // to get location
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         // set FAB to open create task dialog
         FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // allow user to make new task
-                EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment();
-                editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
+
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                    mFusedLocationClient.getLastLocation()
+                            .addOnSuccessListener(new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    // Got last known location. In some rare situations this can be null.
+                                    if (location != null) {
+                                        // Logic to handle location object
+                                        Log.d( TAG, "Simon " + location.getLongitude() + " " + location.getLatitude());
+                                        MapsActivity.latitiude = location.getLatitude();
+                                        MapsActivity.longitude = location.getLongitude();
+                                    } else {
+                                        Log.d(TAG, "location not found");
+                                    }
+                                }
+                            });
+
+                    // allow user to make new task
+                    EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitiude, longitude);
+                    editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
+                }
             }
         });
 
         // set up DB listener for tasks
         setTaskListener();
     }
+
 
 
     /**
