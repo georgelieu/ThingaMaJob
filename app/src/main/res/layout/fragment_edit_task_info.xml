@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.TaskInfoFragment">
+
+    <EditText
+        android:id="@+id/editTaskTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:hint="Task Title" />
+
+    <LinearLayout
+        android:id="@+id/dateHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTaskTitle"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTaskMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editTaskTitle"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Month"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/editTaskDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="Day"/>
+
+        <EditText
+            android:id="@+id/editTaskYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="Year" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editTaskCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/dateHolder"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="Cost"/>
+
+    <EditText
+        android:id="@+id/editTaskDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTaskCost"
+        android:ems="10"
+        android:hint="Task Description"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/taskSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/editTaskDescription"
+        android:text="Save Task" />
+
+    <Button
+        android:id="@+id/taskDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/taskSave"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/btn_logut_bg"
+        android:text="Delete" />
+
+
+</RelativeLayout>

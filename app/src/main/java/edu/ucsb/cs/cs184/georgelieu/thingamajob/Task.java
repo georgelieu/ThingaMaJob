@@ -21,6 +21,10 @@ public class Task {
     public String task_doer_email = null;
     public boolean isFinished = false;    /* indicates if task completed/uncompleted */
 
+    public Task() {
+
+    }
+
     public Task(String task_id, String title, String description, double longitude, double latitude, double pay, int year, int month, int day, String original_poster_email, String task_doer_email, boolean isFinished) {
         this.task_id = task_id;
         this.title = title;
