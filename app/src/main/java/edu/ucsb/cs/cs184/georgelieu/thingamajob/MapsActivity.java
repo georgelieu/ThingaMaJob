@@ -103,6 +103,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        LatLng ucsb = new LatLng(34.412936, -119.847863);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ucsb));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
