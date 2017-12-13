@@ -7,7 +7,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,12 +37,31 @@ public class DatabaseHelper {
     }
 
     public static void addNewUserToDatabase(String email, String full_name){
-        String user_key = mUserCloudEndPoint.push().getKey();
-        User new_user = new User(user_key, email, full_name);
-        Map<String, Object> userValues = new_user.toMap();
-        mUserCloudEndPoint.child(user_key).setValue(userValues);
+        Query user_exists = DatabaseHelper.mDatabaseReference.child("Users").orderByChild("email").equalTo(email);
+        final String email_input = email;
+        final String full_name_input = full_name;
 
-        mListOfUsers.add(new_user);
+        user_exists.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    System.out.println("EXISTS");
+                }
+                else {
+                    System.out.println("NO EXISTS");
+                    String user_key = mUserCloudEndPoint.push().getKey();
+                    User new_user = new User(user_key, email_input, full_name_input);
+                    Map<String, Object> userValues = new_user.toMap();
+                    mUserCloudEndPoint.child(user_key).setValue(userValues);
+
+                    mListOfUsers.add(new_user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     public static String getCurrentUserId() {

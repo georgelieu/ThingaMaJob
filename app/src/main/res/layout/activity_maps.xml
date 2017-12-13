@@ -12,18 +12,6 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    map:cameraBearing="0"
-    map:cameraTargetLat="34.412936"
-    map:cameraTargetLng="-119.847863"
-    map:cameraTilt="30"
-    map:cameraZoom="15"
-    map:mapType="normal"
-    map:uiCompass="true"
-    map:uiRotateGestures="true"
-    map:uiScrollGestures="true"
-    map:uiTiltGestures="true"
-    map:uiZoomControls="false"
-    map:uiZoomGestures="true"
     tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.MapsActivity" />
 
     <android.support.design.widget.FloatingActionButton
@@ -38,4 +26,3 @@
 
 
 </RelativeLayout>
-

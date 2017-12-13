@@ -17,7 +17,7 @@ public class Task {
     public int year;
     public int month;
     public int day;
-    public String original_poster_email; /* Use this key to display User's full_name and phone number as well*/
+    public String original_poster_email;
     public String task_doer_email = null;
     public boolean isFinished = false;    /* indicates if task completed/uncompleted */
 
