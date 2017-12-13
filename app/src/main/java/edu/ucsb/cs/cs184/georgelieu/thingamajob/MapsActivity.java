@@ -33,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private FusedLocationProviderClient mFusedLocationClient;
     public static double longitude;
-    public static double latitiude;
+    public static double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     if (location != null) {
                                         // Logic to handle location object
                                         Log.d( TAG, "Simon " + location.getLongitude() + " " + location.getLatitude());
-                                        MapsActivity.latitiude = location.getLatitude();
+                                        MapsActivity.latitude = location.getLatitude();
                                         MapsActivity.longitude = location.getLongitude();
                                     } else {
                                         Log.d(TAG, "location not found");
@@ -73,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             });
 
                     // allow user to make new task
-                    EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitiude, longitude);
+                    EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitude, longitude);
                     editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
                 }
             }
