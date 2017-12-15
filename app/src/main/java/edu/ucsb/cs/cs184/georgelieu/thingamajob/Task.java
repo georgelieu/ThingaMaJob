@@ -148,6 +148,7 @@ public class Task {
         result.put("year", getYear());
         result.put("month", getMonth());
         result.put("day", getDay());
+        result.put("original_poster_email", getOriginal_poster_email());
         result.put("task_doer_email", getTask_doer_email());
         result.put("isFinished", getIsFinished());
 
