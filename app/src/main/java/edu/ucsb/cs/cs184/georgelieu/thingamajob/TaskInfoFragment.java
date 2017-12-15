@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -62,6 +63,14 @@ public class TaskInfoFragment extends DialogFragment {
 
         // truncate to two values
         cost.setText("$ " + String.format("%.2f", task.getPay()));
+
+        Button takeTask = getView().findViewById(R.id.takeTask);
+        takeTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseHelper.taskTaken(task.getTask_id());
+            }
+        });
 
     }
 

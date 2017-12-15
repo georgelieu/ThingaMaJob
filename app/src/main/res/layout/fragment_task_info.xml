@@ -66,7 +66,7 @@ tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.TaskInfoFragment">
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/acceptTask"
+        android:id="@+id/takeTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

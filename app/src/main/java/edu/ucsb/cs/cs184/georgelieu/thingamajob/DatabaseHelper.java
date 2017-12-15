@@ -141,6 +141,12 @@ public class DatabaseHelper {
 
     }
 
+    public static void taskTaken(String id) {
+        DatabaseReference task = mTaskCloudEndPoint.child(id);
+        task.child("original_poster_email").setValue(DatabaseHelper.getCurrentUserEmail());
+        task.child("isFinished").setValue(true);
+    }
+
     public static void removeTask(String id) {
         mTaskCloudEndPoint.child(id).removeValue();
     }
