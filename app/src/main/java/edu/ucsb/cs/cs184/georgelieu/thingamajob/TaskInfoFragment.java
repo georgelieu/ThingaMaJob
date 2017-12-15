@@ -65,12 +65,17 @@ public class TaskInfoFragment extends DialogFragment {
         cost.setText("$ " + String.format("%.2f", task.getPay()));
 
         Button takeTask = getView().findViewById(R.id.takeTask);
-        takeTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseHelper.taskTaken(task.getTask_id());
-            }
-        });
+        if(task.isFinished) {
+            takeTask.setEnabled(false);
+        } else {
+            takeTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatabaseHelper.taskTaken(task.getTask_id());
+                    dismiss();
+                }
+            });
+        }
 
     }
 
