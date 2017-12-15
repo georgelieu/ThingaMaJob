@@ -131,8 +131,6 @@ public class DatabaseHelper {
 
     public static void taskTaken(String id) {
         DatabaseReference task = mTaskCloudEndPoint.child(id);
-        // TODO: Simon, we commented out the below code. did u mean to put doer instead of original poster's email?
-        //task.child("original_poster_email").setValue(MainActivity.current_user_email);
         task.child("task_doer_email").setValue(MainActivity.current_user_email);
         task.child("isFinished").setValue(true);
     }
