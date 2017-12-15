@@ -50,8 +50,6 @@ import java.util.Arrays;
 
 
 public class LoginActivity extends AppCompatActivity {
-
-    public static User current_user = new User("", "", "");
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;

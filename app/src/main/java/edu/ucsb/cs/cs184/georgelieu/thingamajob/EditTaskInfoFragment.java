@@ -137,8 +137,8 @@ public class EditTaskInfoFragment extends DialogFragment {
                         return;
                     }
 
-//                    Log.d("task", "at this point, user with email " + MainActivity.current_user_email + " is gonna add new task");
-//                    Log.d("task", "at this point, user with full name " + MainActivity.current_user_full_name + " is gonna add new task");
+                    Log.d("task", "at this point, user with email " + MainActivity.current_user_email + " is gonna add new task");
+                    Log.d("task", "at this point, user with full name " + MainActivity.current_user_full_name + " is gonna add new task");
                     DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
                             description.getText().toString(),
                             lon,
