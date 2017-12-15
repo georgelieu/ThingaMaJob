@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class DatabaseHelper {
     // the values of current_user automatically gets set when they login
-    public static User current_user = new User("", "", "");
+    //public static User current_user = new User("", "", "");
     public static DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
     public static DatabaseReference mUserCloudEndPoint;
     public static DatabaseReference mTaskCloudEndPoint;
@@ -62,18 +62,6 @@ public class DatabaseHelper {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-    }
-
-    public static String getCurrentUserId() {
-        return current_user.getUser_id();
-    }
-
-    public static String getCurrentUserEmail() {
-        return current_user.getEmail();
-    }
-
-    public static String getCurrentUserFullName() {
-        return current_user.getFull_name();
     }
 
     public static void addNewTaskToDatabase(String title, String description, double longitude, double latitude, double pay, int year, int month, int day, String original_poster_email) {
