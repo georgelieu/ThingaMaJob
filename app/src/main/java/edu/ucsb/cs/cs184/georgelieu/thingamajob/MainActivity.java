@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    Log.d("user", "user is not null");
                     // User is signed in
                     current_user_email = user.getEmail();
                     setCurrent_user_full_name_and_user_id(current_user_email);
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                       startActivity(intent);
                      Log.d("LOG_Login", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
+                    Log.d("user", "user is null");
+
                     System.out.println("Thinks he's logged out...");
                     // User is signed out
                     String className = this.getClass().getName();

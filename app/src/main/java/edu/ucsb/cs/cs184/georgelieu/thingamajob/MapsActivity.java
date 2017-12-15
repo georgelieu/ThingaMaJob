@@ -133,16 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     void signOut() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
-//        DatabaseHelper.current_user.email = "";
-//        DatabaseHelper.current_user.full_name = "";
-//        DatabaseHelper.current_user.user_id = "";
-
-        LoginActivity.current_user.email = "";
-        LoginActivity.current_user.full_name = "";
-        LoginActivity.current_user.user_id = "";
         LoginManager.getInstance().logOut();
-
-
     }
 
     public void addMarker(Task task) {
