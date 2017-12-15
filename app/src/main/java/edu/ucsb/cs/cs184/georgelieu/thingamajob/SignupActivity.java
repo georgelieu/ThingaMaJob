@@ -133,41 +133,6 @@ public class SignupActivity extends AppCompatActivity {
                 // create user in Firebase database
                 DatabaseHelper.addNewUserToDatabase(email, full_name);
                 Log.d("database", "new user with email " + email + " and name \"" + full_name + "\" has been added to databse");
-
-                // query database for user info to set current_user object in DatabaseHelper
-                Query current_user = DatabaseHelper.mDatabaseReference.child("Users").orderByChild("email").equalTo(email);
-
-                current_user.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            queryUserInfo(child.getKey());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-            }
-        });
-    }
-
-    public static void queryUserInfo(final String userId){
-        Query user_info = DatabaseHelper.mDatabaseReference.child("Users").child(userId);
-        user_info.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String email = dataSnapshot.child("email").getValue().toString();
-                String fullname = dataSnapshot.child("full_name").getValue().toString();
-
-                DatabaseHelper.current_user.setUser_id(userId);
-                DatabaseHelper.current_user.setEmail(email);
-                DatabaseHelper.current_user.setFull_name(fullname);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
             }
         });
     }

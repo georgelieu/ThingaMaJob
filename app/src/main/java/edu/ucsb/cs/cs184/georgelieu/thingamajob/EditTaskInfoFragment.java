@@ -137,6 +137,8 @@ public class EditTaskInfoFragment extends DialogFragment {
                         return;
                     }
 
+//                    Log.d("task", "at this point, user with email " + MainActivity.current_user_email + " is gonna add new task");
+//                    Log.d("task", "at this point, user with full name " + MainActivity.current_user_full_name + " is gonna add new task");
                     DatabaseHelper.addNewTaskToDatabase(title.getText().toString(),
                             description.getText().toString(),
                             lon,
@@ -145,7 +147,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                             Integer.parseInt(year.getText().toString()),
                             Integer.parseInt(month.getText().toString()),
                             Integer.parseInt(day.getText().toString()),
-                            DatabaseHelper.getCurrentUserEmail());
+                            MainActivity.current_user_email);
                     Toast.makeText(getContext(), "Task created!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }

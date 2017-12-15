@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -52,12 +53,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // to get location
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // sign out button
+        final Button signOut = (Button) findViewById(R.id.sign_out_button);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
+
         // set FAB to open create task dialog
         FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (ContextCompat.checkSelfPermission(getApplicationContext(),
                         android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -124,9 +133,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     void signOut() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
-        DatabaseHelper.current_user.email = "";
-        DatabaseHelper.current_user.full_name = "";
-        DatabaseHelper.current_user.user_id = "";
+//        DatabaseHelper.current_user.email = "";
+//        DatabaseHelper.current_user.full_name = "";
+//        DatabaseHelper.current_user.user_id = "";
+
+        LoginActivity.current_user.email = "";
+        LoginActivity.current_user.full_name = "";
+        LoginActivity.current_user.user_id = "";
         LoginManager.getInstance().logOut();
 
 
@@ -224,6 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
 
 
 
