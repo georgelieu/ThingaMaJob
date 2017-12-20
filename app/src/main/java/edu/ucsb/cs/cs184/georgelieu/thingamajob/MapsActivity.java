@@ -181,7 +181,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static HashMap<Marker, Task> markerToTask = new HashMap<>();
 
     // so that on task info edit, we know which marker->task link to update
-    private static HashMap<String, Marker> keyToMarker = new HashMap<>();
+    public static HashMap<String, Marker> keyToMarker = new HashMap<>();
 
     public void setTaskListener() {
 
