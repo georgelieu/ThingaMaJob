@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +35,19 @@ public class ListTasksActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         ListView tasks_list = (ListView) findViewById(R.id.tasks_list);
         tasks_list.setAdapter(taskArrayAdapter);
+        tasks_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Task task = (Task) parent.getItemAtPosition(position);
+                if (!task.getIsFinished()) {
+                    EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(task);
+                    editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
+                } else {
+                    TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
+                    taskInfoFragment.show(getFragmentManager(), "Task info fragment");
+                }
+            }
+        });
         if(!tasks.isEmpty()) {
             TextView tv = (TextView) findViewById(R.id.no_tasks_msg);
             tv.setText("");
