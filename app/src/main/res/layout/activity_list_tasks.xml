@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.ListTasksActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/PopupOverlay" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_tasks_msg"
+        android:text="No Tasks to Show"
+        android:gravity="center_horizontal"
+        />
+
+    <ListView
+        android:id="@+id/tasks_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+
+</LinearLayout>

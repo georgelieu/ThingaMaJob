@@ -139,5 +139,12 @@ public class DatabaseHelper {
         mTaskCloudEndPoint.child(id).removeValue();
     }
 
+    public static void getAllTasksPostedByUser(String email, ValueEventListener listener) {
+        mTaskCloudEndPoint.orderByChild("original_poster_email").equalTo(email).addValueEventListener(listener);
+    }
+
+    public static void getAllTasksDoneByUser(String email, ValueEventListener listener) {
+        mTaskCloudEndPoint.orderByChild("task_doer_email").equalTo(email).addValueEventListener(listener);
+    }
 
 }

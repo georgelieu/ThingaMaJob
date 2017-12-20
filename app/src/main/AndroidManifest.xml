@@ -35,11 +35,10 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -70,20 +69,23 @@
         -->
         <activity
             android:name=".LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+            android:windowSoftInputMode="adjustResize|stateHidden">
 
-            <!--<intent-filter>-->
-                <!--<data android:scheme="@string/fb_login_protocol_scheme" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <data android:scheme="@string/fb_login_protocol_scheme" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".SignupActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_signup"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ListTasksActivity"
+            android:label="@string/title_activity_list_tasks"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -3,7 +3,6 @@
     <color name="colorPrimary">#AACCBE</color>
     <color name="colorPrimaryDark">#26ae90</color>
     <color name="colorAccent">#26ae90</color>
-
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>
     <color name="bg_main">#428bca</color>
@@ -17,4 +16,5 @@
     <color name="btn_login_bg">#eceef1</color>
     <color name="lbl_name">#333333</color>
     <color name="btn_logut_bg">#ff6861</color>
+    <color name="listview_task_done_background">#7cfc00</color>
 </resources>

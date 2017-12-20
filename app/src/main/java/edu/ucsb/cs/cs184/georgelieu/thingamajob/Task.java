@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import java.util.Map;
  * Created by xuewensherryli on 12/6/17.
  */
 
-public class Task {
+public class Task implements Serializable {
     public String task_id;
     public String title;
     public String description;

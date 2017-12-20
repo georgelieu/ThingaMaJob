@@ -1,14 +1,12 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -35,11 +32,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         NavigationView.OnNavigationItemSelectedListener {
@@ -260,8 +257,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         switch (id) {
             case R.id.nav_posted:
+                DatabaseHelper.getAllTasksPostedByUser(MainActivity.current_user_email, new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Task> tasks = new ArrayList<>();
+                        for( DataSnapshot child : dataSnapshot.getChildren()) {
+                            tasks.add(child.getValue(Task.class));
+                        }
+                        Intent intent = ListTasksActivity.ListTasksActivityIntentFactory(MapsActivity.this, tasks, true);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
                 break;
             case R.id.nav_done:
+                DatabaseHelper.getAllTasksDoneByUser(MainActivity.current_user_email, new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Task> tasks = new ArrayList<>();
+                        for( DataSnapshot child : dataSnapshot.getChildren()) {
+                            tasks.add(child.getValue(Task.class));
+                        }
+                        Intent intent = ListTasksActivity.ListTasksActivityIntentFactory(MapsActivity.this, tasks, false);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
                 break;
             case R.id.nav_sign_out:
                 signOut();

@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
                     setCurrent_user_full_name_and_user_id(current_user_email);
                     Intent intent = new Intent(getBaseContext(), MapsActivity.class);
                     //intent.putExtra("EXTRA_SESSION_ID", sessionId);
-                      startActivity(intent);
-                     Log.d("LOG_Login", "onAuthStateChanged:signed_in:" + user.getUid());
+                    startActivity(intent);
+                    Log.d("LOG_Login", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     Log.d("user", "user is null");
 
