@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -74,6 +75,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Set user's name and email
+        View nav_header = navigationView.getHeaderView(0);
+        TextView nav_header_user_name = (TextView) nav_header.findViewById(R.id.nav_header_name);
+        nav_header_user_name.setText(MainActivity.current_user_full_name); // Race Condition with set UserFullname in MainActivity
+        TextView nav_header_email = (TextView) nav_header.findViewById(R.id.nav_header_email);
+        nav_header_email.setText(MainActivity.current_user_email);
 
         // set FAB to open create task dialog
         FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
