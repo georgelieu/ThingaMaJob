@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_posted"
+        android:title="TASKS POSTED"
+        android:icon="@drawable/menu_task_posted"/>
+    <item
+        android:id="@+id/nav_done"
+        android:icon="@drawable/menu_task_done"
+        android:title="TASKS DONE" />
+    <item
+        android:id="@+id/nav_sign_out"
+        android:icon="@drawable/menu_sign_out"
+        android:title="SIGN OUT" />
+</group>
+</menu>
