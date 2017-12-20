@@ -174,7 +174,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // get task info from marker
         Task task = markerToTask.get(marker);
 
-        if(task.getOriginal_poster_email() != MainActivity.current_user_email) {
+        if( !task.getOriginal_poster_email().equals(MainActivity.current_user_email) ) {
             // if you're clicking on someone else's task
             TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
             taskInfoFragment.show(getFragmentManager(), "Task info fragment");
