@@ -22,13 +22,16 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.MapsActivity" />
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.MapsActivity" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addTask"
@@ -39,6 +42,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="8dp"/>
+
     </RelativeLayout>
 
     <!-- The navigation drawer -->
