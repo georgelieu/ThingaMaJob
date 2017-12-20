@@ -109,7 +109,8 @@ public class EditTaskInfoFragment extends DialogFragment {
                 public void onClick(View view) {
 
                     Log.d(TAG, "delete task button");
-                    DatabaseHelper.removeTask(id);
+                    MapsActivity.keyToMarker.get(id).remove();
+                    MapsActivity.keyToMarker.remove(id);
                     dismiss();
                     Toast.makeText(getContext(), "Task deleted", Toast.LENGTH_SHORT).show();
                 }
