@@ -6,30 +6,10 @@
     android:layout_height="match_parent"
     tools:context="edu.ucsb.cs.cs184.georgelieu.thingamajob.MainActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+    </FrameLayout>
 
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="48dp"
-            android:id="@+id/appName"
-            android:paddingBottom="20dp"/>
-
-        <ImageView
-            android:layout_below="@+id/appName"
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:src="@android:drawable/btn_minus"
-            android:background="#e43"/>
-    </RelativeLayout>
 </RelativeLayout>

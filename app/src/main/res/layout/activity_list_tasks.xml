@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/no_tasks_msg"
-        android:text="No Tasks to Show"
+        android:text="Loading..."
         android:gravity="center_horizontal"
         />
 

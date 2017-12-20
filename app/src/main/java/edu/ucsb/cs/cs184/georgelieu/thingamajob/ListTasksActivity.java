@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListTasksActivity extends AppCompatActivity {
@@ -24,15 +30,59 @@ public class ListTasksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        tasks = (List<Task>) intent.getSerializableExtra("tasks");
         isPostedTasks = intent.getBooleanExtra("isPostedTasks", true);
-        TaskArrayAdapter taskArrayAdapter= new TaskArrayAdapter(this, tasks, isPostedTasks);
         setTitle(isPostedTasks ? "Tasks Posted" : "Tasks Done");
         setContentView(R.layout.activity_list_tasks);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (isPostedTasks) {
+            DatabaseHelper.getAllTasksPostedByUser(MainActivity.current_user_email, new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    tasks = new ArrayList<>();
+                    for( DataSnapshot child : dataSnapshot.getChildren()) {
+                        tasks.add(child.getValue(Task.class));
+                    }
+                    populateListView();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            });
+        }
+        else {
+            DatabaseHelper.getAllTasksDoneByUser(MainActivity.current_user_email, new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    tasks = new ArrayList<>();
+                    for( DataSnapshot child : dataSnapshot.getChildren()) {
+                        tasks.add(child.getValue(Task.class));
+                    }
+                    populateListView();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            });
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public static Intent ListTasksActivityIntentFactory(Context c, boolean isPostedTasks) {
+        Intent intent = new Intent(c, ListTasksActivity.class);
+        intent.putExtra("isPostedTasks", isPostedTasks);
+        return intent;
+    }
+
+    private void populateListView() {
+        TaskArrayAdapter taskArrayAdapter = new TaskArrayAdapter(this, tasks, isPostedTasks);
         ListView tasks_list = (ListView) findViewById(R.id.tasks_list);
         tasks_list.setAdapter(taskArrayAdapter);
         tasks_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,22 +98,12 @@ public class ListTasksActivity extends AppCompatActivity {
                 }
             }
         });
-        if(!tasks.isEmpty()) {
+        if(tasks.isEmpty()) {
             TextView tv = (TextView) findViewById(R.id.no_tasks_msg);
-            tv.setText("");
+            tv.setText("No Results to Show");
+        } else {
+            TextView tv = (TextView) findViewById(R.id.no_tasks_msg);
+            tv.setText("Completed!");
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    public static Intent ListTasksActivityIntentFactory(Context c, List<Task> tasks, boolean isPostedTasks) {
-        Intent intent = new Intent(c, ListTasksActivity.class);
-        intent.putExtra("tasks", (Serializable) tasks);
-        intent.putExtra("isPostedTasks", isPostedTasks);
-        return intent;
     }
 }

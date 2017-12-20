@@ -69,7 +69,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -254,39 +254,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Intent intent;
         switch (id) {
             case R.id.nav_posted:
-                DatabaseHelper.getAllTasksPostedByUser(MainActivity.current_user_email, new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<Task> tasks = new ArrayList<>();
-                        for( DataSnapshot child : dataSnapshot.getChildren()) {
-                            tasks.add(child.getValue(Task.class));
-                        }
-                        Intent intent = ListTasksActivity.ListTasksActivityIntentFactory(MapsActivity.this, tasks, true);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+                intent = ListTasksActivity.ListTasksActivityIntentFactory(MapsActivity.this, true);
+                startActivity(intent);
                 break;
             case R.id.nav_done:
-                DatabaseHelper.getAllTasksDoneByUser(MainActivity.current_user_email, new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<Task> tasks = new ArrayList<>();
-                        for( DataSnapshot child : dataSnapshot.getChildren()) {
-                            tasks.add(child.getValue(Task.class));
-                        }
-                        Intent intent = ListTasksActivity.ListTasksActivityIntentFactory(MapsActivity.this, tasks, false);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+                intent = ListTasksActivity.ListTasksActivityIntentFactory(MapsActivity.this, false);
+                startActivity(intent);
                 break;
             case R.id.nav_sign_out:
                 signOut();
@@ -295,7 +271,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
