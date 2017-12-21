@@ -37,7 +37,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,14 +122,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_ACCESS_REQUEST_CODE);
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_ACCESS_REQUEST_CODE);
 
             }
-        }else {
+        } else {
             // Permission Already Granted
             finishSettingUpMap(true);
         }
@@ -292,47 +292,66 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressLint("MissingPermission")
     private void finishSettingUpMap(boolean permissionGranted) {
         if (!permissionGranted) {
-            // Standard zoom to UCSB
-            LatLng ucsb = new LatLng(34.412936, -119.847863);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(ucsb));
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        }
-        else {
+            setMapToUCSB();
+        } else {
+            // to get location
+            final FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
+
             // Show FAB
             FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
             addTask.setVisibility(View.VISIBLE);
             addTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // to get location
-                    FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
                     mFusedLocationClient.getLastLocation()
-                                .addOnSuccessListener(new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location location) {
-                                        // Got last known location. In some rare situations this can be null.
-                                        if (location != null) {
-                                            // Logic to handle location object
-                                            Log.d(TAG, "Simon " + location.getLongitude() + " " + location.getLatitude());
-                                            MapsActivity.latitude = location.getLatitude();
-                                            MapsActivity.longitude = location.getLongitude();
-                                        } else {
-                                            Log.d(TAG, "location not found");
-                                        }
+                            .addOnSuccessListener(new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    // Got last known location. In some rare situations this can be null.
+                                    if (location != null) {
+                                        // Logic to handle location object
+                                        Log.d(TAG, "Simon " + location.getLongitude() + " " + location.getLatitude());
+                                        latitude = location.getLatitude();
+                                        longitude = location.getLongitude();
+                                    } else {
+                                        Log.d(TAG, "location not found");
                                     }
-                                });
+                                }
+                            });
 
-                        // allow user to make new task
-                        EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitude, longitude);
-                        editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
+                    // allow user to make new task
+                    EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitude, longitude);
+                    editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
                 }
             });
 
             // set My Location Enabled to True on Map
             mMap.setMyLocationEnabled(true);
 
-            // Zoom Map to My Location
-
+            //Zoom Map to My Location
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        // Logic to handle location object
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        LatLng myLocation = new LatLng(latitude, longitude);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+                    } else {
+                        setMapToUCSB();
+                    }
+                }
+            });
         }
+    }
+
+    private void setMapToUCSB() {
+        LatLng ucsb = new LatLng(34.412936, -119.847863);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ucsb));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
     }
 }
