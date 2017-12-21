@@ -1,5 +1,8 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
+import android.*;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -7,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,10 +47,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavigationView.OnNavigationItemSelectedListener {
 
     private String TAG = "MapsActivity/Simon";
+    private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 1;
 
     private GoogleMap mMap;
 
-    private FusedLocationProviderClient mFusedLocationClient;
     public static double longitude;
     public static double latitude;
 
@@ -58,9 +62,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        // to get location
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Set up Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,36 +84,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         TextView nav_header_email = (TextView) nav_header.findViewById(R.id.nav_header_email);
         nav_header_email.setText(MainActivity.current_user_email);
 
-        // set FAB to open create task dialog
+        // set FAB to INVISIBLE because if we don't have fine_access_Location, this is useless
         FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                    mFusedLocationClient.getLastLocation()
-                            .addOnSuccessListener(new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    // Got last known location. In some rare situations this can be null.
-                                    if (location != null) {
-                                        // Logic to handle location object
-                                        Log.d( TAG, "Simon " + location.getLongitude() + " " + location.getLatitude());
-                                        MapsActivity.latitude = location.getLatitude();
-                                        MapsActivity.longitude = location.getLongitude();
-                                    } else {
-                                        Log.d(TAG, "location not found");
-                                    }
-                                }
-                            });
-
-                    // allow user to make new task
-                    EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitude, longitude);
-                    editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
-                }
-            }
-        });
+        addTask.setVisibility(View.INVISIBLE);
 
         // set up DB listener for tasks
         setTaskListener();
@@ -131,10 +105,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng ucsb = new LatLng(34.412936, -119.847863);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ucsb));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -143,9 +113,43 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        // Access Fine Location Permission
         if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_ACCESS_REQUEST_CODE);
+
+            }
+        }else {
+            // Permission Already Granted
+            finishSettingUpMap(true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case FINE_LOCATION_ACCESS_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    finishSettingUpMap(true);
+                } else {
+                    // permission denied
+                    finishSettingUpMap(false);
+                }
+                return;
         }
     }
 
@@ -175,7 +179,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // get task info from marker
         Task task = markerToTask.get(marker);
 
-        if( !task.getOriginal_poster_email().equals(MainActivity.current_user_email) ) {
+        if (!task.getOriginal_poster_email().equals(MainActivity.current_user_email)) {
             // if you're clicking on someone else's task
             TaskInfoFragment taskInfoFragment = new TaskInfoFragment(task);
             taskInfoFragment.show(getFragmentManager(), "Task info fragment");
@@ -283,5 +287,52 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @SuppressLint("MissingPermission")
+    private void finishSettingUpMap(boolean permissionGranted) {
+        if (!permissionGranted) {
+            // Standard zoom to UCSB
+            LatLng ucsb = new LatLng(34.412936, -119.847863);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(ucsb));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        }
+        else {
+            // Show FAB
+            FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.addTask);
+            addTask.setVisibility(View.VISIBLE);
+            addTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // to get location
+                    FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
+                    mFusedLocationClient.getLastLocation()
+                                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location location) {
+                                        // Got last known location. In some rare situations this can be null.
+                                        if (location != null) {
+                                            // Logic to handle location object
+                                            Log.d(TAG, "Simon " + location.getLongitude() + " " + location.getLatitude());
+                                            MapsActivity.latitude = location.getLatitude();
+                                            MapsActivity.longitude = location.getLongitude();
+                                        } else {
+                                            Log.d(TAG, "location not found");
+                                        }
+                                    }
+                                });
+
+                        // allow user to make new task
+                        EditTaskInfoFragment editTaskInfoFragment = new EditTaskInfoFragment(latitude, longitude);
+                        editTaskInfoFragment.show(getFragmentManager(), "Edit task info fragment");
+                }
+            });
+
+            // set My Location Enabled to True on Map
+            mMap.setMyLocationEnabled(true);
+
+            // Zoom Map to My Location
+
+        }
     }
 }
