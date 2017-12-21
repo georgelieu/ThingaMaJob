@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     current_user_email = user.getEmail();
                     setCurrent_user_full_name_and_user_id(current_user_email);
                     Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //intent.putExtra("EXTRA_SESSION_ID", sessionId);
                     startActivity(intent);
                     Log.d("LOG_Login", "onAuthStateChanged:signed_in:" + user.getUid());

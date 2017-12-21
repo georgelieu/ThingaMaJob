@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -123,7 +124,8 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(SignupActivity.this, MapsActivity.class));
+                                    Intent resultIntent = new Intent();
+                                    setResult(Activity.RESULT_OK, resultIntent);
                                     finish();
                                 }
                             }

@@ -163,6 +163,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         LoginManager.getInstance().logOut();
+        finish();
     }
 
     public void addMarker(Task task) {

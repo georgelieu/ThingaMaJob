@@ -39,17 +39,15 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 
 public class LoginActivity extends AppCompatActivity {
+    private static final int SIGN_UP_REQUEST_CODE = 1;
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
@@ -64,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
 
@@ -119,10 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                         parameters.putString("fields", "id,first_name,last_name,email,gender");
                         request.setParameters(parameters);
                         request.executeAsync();
-                        Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                        startActivity(intent);
-                        finish();
-
                     }
                     @Override
                     public void onCancel () {
@@ -151,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+                startActivityForResult(new Intent(LoginActivity.this, SignupActivity.class), SIGN_UP_REQUEST_CODE);
             }
         });
 
@@ -199,8 +192,6 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
                                     finish();
                                 }
                             }
@@ -213,7 +204,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SIGN_UP_REQUEST_CODE:
+                finish();
+                break;
+            default:
+                callbackManager.onActivityResult(requestCode, resultCode, data);
+                finish();
+                break;
+        }
     }
 
     private Bundle getFacebookData(JSONObject object) {
