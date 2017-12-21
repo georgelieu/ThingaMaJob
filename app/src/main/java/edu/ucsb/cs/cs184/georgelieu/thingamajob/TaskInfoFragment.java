@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -31,6 +32,7 @@ public class TaskInfoFragment extends DialogFragment {
     }
      */
 
+    @SuppressLint("ValidFragment")
     public TaskInfoFragment(Task task) {
         this.task = task;
     }
@@ -71,7 +73,10 @@ public class TaskInfoFragment extends DialogFragment {
             takeTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DatabaseHelper.taskTaken(task.getTask_id());
+                    String id = task.getTask_id();
+                    DatabaseHelper.taskTaken(id);
+                    MapsActivity.keyToMarker.get(id).remove();
+                    MapsActivity.keyToMarker.remove(id);
                     dismiss();
                 }
             });

@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs184.georgelieu.thingamajob;
 
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -33,11 +34,13 @@ public class EditTaskInfoFragment extends DialogFragment {
         // Required empty public constructor
     }
 
+    @SuppressLint("ValidFragment")
     public EditTaskInfoFragment(double latitude, double longitude) {
         lat = latitude;
         lon = longitude;
     }
 
+    @SuppressLint("ValidFragment")
     public EditTaskInfoFragment(Task task) {
         this.task = task;
     }
@@ -109,8 +112,7 @@ public class EditTaskInfoFragment extends DialogFragment {
                 public void onClick(View view) {
 
                     Log.d(TAG, "delete task button");
-                    MapsActivity.keyToMarker.get(id).remove();
-                    MapsActivity.keyToMarker.remove(id);
+                    DatabaseHelper.removeTask(id);
                     dismiss();
                     Toast.makeText(getContext(), "Task deleted", Toast.LENGTH_SHORT).show();
                 }

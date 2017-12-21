@@ -203,17 +203,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                // add marker to map
-
+                // add marker to map only if it's still available
                 String key = dataSnapshot.getKey();
                 Task newTask = dataSnapshot.getValue(Task.class);
+                boolean isFinished = newTask.getIsFinished();
+                if(!isFinished) {
+                    LatLng position = new LatLng(newTask.latitude, newTask.longitude);
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(position));
 
-                LatLng position = new LatLng(newTask.latitude, newTask.longitude);
-                Marker marker = mMap.addMarker(new MarkerOptions().position(position));
-
-                markerToTask.put(marker, newTask);
-                keyToMarker.put(key, marker);
-
+                    markerToTask.put(marker, newTask);
+                    keyToMarker.put(key, marker);
+                }
             }
 
             @Override
