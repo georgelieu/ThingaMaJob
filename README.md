@@ -1,2 +1,5 @@
 # ThingaMaJob
-Leggo
+Thien Hoang
+Sherry Li
+George Lieu
+Simon Wong.
